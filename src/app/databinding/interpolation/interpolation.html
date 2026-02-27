@@ -1,0 +1,152 @@
+<div class="page">
+    <h1>Interpolation</h1>
+    <p class="subtitle">Render component data in the template using <span class="tag">{{ '{{' }} {{ '}}' }}</span> syntax.</p>
+  
+    <!-- Basic Values -->
+    <div class="card">
+      <h2>Basic Values</h2>
+      <div class="demo-box">
+        <div class="interp-grid">
+          <div class="interp-row">
+            <span class="interp-key">title</span>
+            <span class="interp-arrow">→</span>
+            <span class="interp-val">{{ title }}</span>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">studentName</span>
+            <span class="interp-arrow">→</span>
+            <span class="interp-val">{{ studentName }}</span>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">courseCode</span>
+            <span class="interp-arrow">→</span>
+            <span class="interp-val">{{ courseCode }}</span>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">currentYear</span>
+            <span class="interp-arrow">→</span>
+            <span class="interp-val">{{ currentYear }}</span>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">isActive</span>
+            <span class="interp-arrow">→</span>
+            <span class="interp-val" [style.color]="isActive ? '#00e676' : '#ff4d6d'">
+              {{ isActive }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Syntax Types -->
+    <div class="card">
+      <h2>Syntax Types</h2>
+      <div class="demo-box">
+        <div class="interp-grid">
+          <div class="interp-row">
+            <span class="interp-key">Expression</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ text }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">Curly</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ curly }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">Common</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ common }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">Methods</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ methods }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">Dot Notation</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ dotnot }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">Optional Chain</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ dotnot2 }}</code>
+          </div>
+          <div class="interp-row">
+            <span class="interp-key">JSON Pipe</span>
+            <span class="interp-arrow">→</span>
+            <code class="interp-code">{{ jpipe }}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Array + Object side by side -->
+<div class="two-col">
+
+  <!-- Array -->
+  <div class="card" style="margin-bottom:0;">
+    <h2>Array — roles</h2>
+    <div class="demo-box">
+      <div class="roles-list">
+        <div *ngFor="let role of roles; let i = index" class="role-item">
+          <span class="role-index">{{ i }}</span>
+          <span class="role-name">{{ role }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Object -->
+  <div class="card" style="margin-bottom:0;">
+    <h2>Object — user</h2>
+    <div class="demo-box">
+      <div class="interp-grid">
+        <div class="interp-row">
+          <span class="interp-key">user.name</span>
+          <span class="interp-val">{{ user.name }}</span>
+        </div>
+        <div class="interp-row">
+          <span class="interp-key">user.position</span>
+          <span class="interp-val">{{ user.position }}</span>
+        </div>
+        <div class="interp-row">
+          <span class="interp-key">user.department</span>
+          <span class="interp-val">{{ user.department }}</span>
+        </div>
+        <div class="interp-row">
+          <span class="interp-key">user.details.role</span>
+          <span class="interp-val">{{ user.details.role }}</span>
+        </div>
+        <div class="interp-row">
+          <span class="interp-key">getStatus()</span>
+          <span class="interp-val" style="color:#00e676;">{{ getStatus() }}</span>
+        </div>
+      </div>
+      <div class="json-block">{{ user | json }}</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Countries -->
+<div class="card">
+  <h2>Array of Objects — countries</h2>
+  <div class="demo-box">
+    <div class="country-grid">
+      <div *ngFor="let country of countries"
+           class="country-item"
+           [class.country-selected]="country.id === selectedCountryId"
+           (click)="selectedCountryId = country.id">
+        <span class="country-id">{{ country.id }}</span>
+        <span class="country-name">{{ country.name }}</span>
+        <span class="country-check" *ngIf="country.id === selectedCountryId">✓</span>
+      </div>
+    </div>
+    <p style="margin-top:14px; font-size:13px;">
+      Selected: <span class="interp-val">{{ getSelectedCountry() }}</span>
+      &nbsp;(selectedCountryId = <span style="color:#f5a623;">"{{ selectedCountryId }}"</span>)
+    </p>
+  </div>
+</div>

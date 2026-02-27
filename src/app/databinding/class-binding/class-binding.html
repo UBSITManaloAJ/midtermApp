@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="card">
+      <h2>Class Binding</h2>
+      <p [class.highlight]="isHighlighted"
+         [class.text-success]="isSuccess"
+         [class.text-danger]="isDanger"
+         style="padding: 10px; font-size: 18px;">
+        Watch my styling change!
+      </p>
+      <button (click)="toggle('highlight')">Toggle Highlight</button>
+      <button (click)="toggle('success')">Toggle Success (Green)</button>
+      <button (click)="toggle('danger')">Toggle Danger (Red)</button>
+    </div>
+  </div>

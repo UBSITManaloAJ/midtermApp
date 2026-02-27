@@ -1,0 +1,77 @@
+<header class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-name">MidtermApp</span>
+    </div>
+  
+    <nav class="nav-links">
+  
+      <!-- Home -->
+      <a routerLink="/home" routerLinkActive="active" class="nav-link">
+        🏠 Home
+      </a>
+  
+      <!-- Data Binding Dropdown -->
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-trigger" (click)="toggle('databinding')">
+          Data Binding
+          <span class="arrow" [class.rotated]="openMenu === 'databinding'">▾</span>
+        </button>
+        <div class="dropdown-panel wide" *ngIf="openMenu === 'databinding'">
+          <div class="dropdown-header">Data Binding Types</div>
+          <div class="dropdown-grid">
+            <a routerLink="/interpolation"    (click)="close()" class="dropdown-item">
+              <span class="item-icon">📝</span>
+              <div>
+                <div class="item-title">Interpolation</div>
+                <div class="item-desc">{{ '{{' }} {{ '}}' }} syntax</div>
+              </div>
+            </a>
+            <a routerLink="/property-binding" (click)="close()" class="dropdown-item">
+              <span class="item-icon">🔗</span>
+              <div>
+                <div class="item-title">Property Binding</div>
+                <div class="item-desc">[property] syntax</div>
+              </div>
+            </a>
+            <a routerLink="/event-binding"    (click)="close()" class="dropdown-item">
+              <span class="item-icon">🖱️</span>
+              <div>
+                <div class="item-title">Event Binding</div>
+                <div class="item-desc">(event) syntax</div>
+              </div>
+            </a>
+            <a routerLink="/two-way"          (click)="close()" class="dropdown-item">
+              <span class="item-icon">🔄</span>
+              <div>
+                <div class="item-title">Two-Way Binding</div>
+                <div class="item-desc">[(ngModel)] syntax</div>
+              </div>
+            </a>
+            <a routerLink="/attribute"        (click)="close()" class="dropdown-item">
+              <span class="item-icon">🏷️</span>
+              <div>
+                <div class="item-title">Attribute Binding</div>
+                <div class="item-desc">[attr.x] syntax</div>
+              </div>
+            </a>
+            <a routerLink="/class"            (click)="close()" class="dropdown-item">
+              <span class="item-icon">🎨</span>
+              <div>
+                <div class="item-title">Class Binding</div>
+                <div class="item-desc">[class.x] syntax</div>
+              </div>
+            </a>
+            <a routerLink="/style"            (click)="close()" class="dropdown-item">
+              <span class="item-icon">✨</span>
+              <div>
+                <div class="item-title">Style Binding</div>
+                <div class="item-desc">[style.x] syntax</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+  
+    </nav>
+  </header>

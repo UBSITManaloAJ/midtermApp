@@ -1,0 +1,30 @@
+<div class="page">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">⚡ Angular Midterm Project</div>
+      <h1>Learn Angular<br>Data Binding</h1>
+      <p class="subtitle">
+        A comprehensive interactive guide to Angular's core data binding concepts.
+        Explore, experiment, and understand.
+      </p>
+      <div class="hero-actions">
+        <button routerLink="/interpolation">Get Started →</button>
+        <button class="secondary" routerLink="/components">Learn Components</button>
+      </div>
+    </div>
+  
+    <!-- Feature Cards -->
+    <h2 style="margin-bottom: 4px;">Explore Topics</h2>
+    <p class="subtitle">Click any topic to dive in</p>
+  
+    <div class="card-grid">
+      <a *ngFor="let f of features" [routerLink]="f.route" class="feature-card">
+        <div class="feature-icon">{{ f.icon }}</div>
+        <div class="feature-title">{{ f.title }}</div>
+        <div class="feature-desc">{{ f.desc }}</div>
+        <div class="feature-arrow">→</div>
+      </a>
+    </div>
+  
+  </div>

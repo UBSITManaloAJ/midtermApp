@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="card">
+      <h2>Style Binding</h2>
+      <p [style.fontSize.px]="fontSize"
+         [style.color]="textColor"
+         [style.backgroundColor]="bgColor"
+         style="padding: 12px; border-radius: 4px; border: 1px solid #ccc;">
+        This text is dynamically styled!
+      </p>
+      <button (click)="bigger()">A+ Bigger</button>
+      <button (click)="smaller()">A- Smaller</button>
+      <br><br>
+      <label>Text Color: </label>
+      <input type="color" [(ngModel)]="textColor">
+      &nbsp;
+      <label>BG Color: </label>
+      <input type="color" [(ngModel)]="bgColor">
+      <p style="margin-top:10px;">Font size: {{ fontSize }}px</p>
+    </div>
+  </div>

@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="card">
+      <h2>Attribute Binding</h2>
+      <table border="1" style="width:100%; text-align:center; border-collapse:collapse;">
+        <tr>
+          <td [attr.colspan]="colspan" style="background:#e8eaf6; padding:10px;">
+            Merged Cell (colspan = {{ colspan }})
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:8px;">A</td>
+          <td style="padding:8px;">B</td>
+          <td style="padding:8px;">C</td>
+        </tr>
+      </table>
+      <br>
+      <button [attr.aria-label]="ariaLabel">✕</button>
+      <p>aria-label = "{{ ariaLabel }}"</p>
+    </div>
+  </div>
