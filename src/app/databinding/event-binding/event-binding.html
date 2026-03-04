@@ -1,11 +1,158 @@
-<div class="container">
-    <div class="card">
-      <h2>Event Binding</h2>
-      <button (click)="onClick()">Click Me</button>
-      <p>{{ clickMessage }}</p>
-      <hr style="margin: 12px 0;">
-      <button (click)="increment()">Increment</button>
-      <button (click)="reset()">Reset</button>
-      <p>Counter: {{ counter }}</p>
+<div class="page">
+  <h1>Event Binding</h1>
+  <p class="subtitle">
+    Listen and respond to user-triggered DOM events using <span class="tag">(event)="handler"</span> syntax.
+    One-way binding from the view to the component.
+  </p>
+
+  <!-- ── How it works ─────────────────────────────────────────── -->
+  <div class="card">
+    <h2>📌 How it works</h2>
+    <p>Parentheses tell Angular: listen for this DOM event and execute the expression when it fires.
+    The special <span class="tag">$event</span> variable holds the native Event object.</p>
+    <div class="code-block">
+      <span class="comment">// Click event</span><br>
+      &lt;<span class="tag-name">button</span> <span class="attr">(click)</span>="<span class="value">onButtonClick()</span>"&gt;Click Me&lt;/<span class="tag-name">button</span>&gt;<br><br>
+      <span class="comment">// Keyboard event — pass $event for key details</span><br>
+      &lt;<span class="tag-name">input</span> <span class="attr">(keyup)</span>="<span class="value">onKeyPress($event)</span>"&gt;<br><br>
+      <span class="comment">// Form submit — prevent page reload</span><br>
+      &lt;<span class="tag-name">form</span> <span class="attr">(submit)</span>="<span class="value">onFormSubmit($event)</span>"&gt;
     </div>
   </div>
+
+  <!-- ── C1: Click ─────────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C1</span> (click) — Button Events</h2>
+    <div class="demo-box">
+      <div class="btn-row">
+        <button [disabled]="isButtonDisabled" (click)="onButtonClick()">
+          {{ isButtonDisabled ? '🔒 ' + buttonLabel : '🔓 ' + buttonLabel }}
+        </button>
+        <button (click)="onButtonClick()">
+          Clicked {{ clickCount }} time(s)
+        </button>
+      </div>
+      <div class="state-row" style="margin-top:12px;">
+        <span class="state-key">isButtonDisabled</span>
+        <span class="state-val" [style.color]="isButtonDisabled ? '#ff4d6d' : '#00e676'">{{ isButtonDisabled }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C2: Keyboard ──────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C2</span> (keyup) — Keyboard Event with $event</h2>
+    <div class="demo-box">
+      <input type="text" placeholder="Press any key..." (keyup)="onKeyPress($event)" style="width:100%;">
+      <div class="state-row" style="margin-top:12px;">
+        <span class="state-key">lastKeyPressed</span>
+        <span class="state-val">{{ lastKeyPressed || '—' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C3: Mouse ─────────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C3</span> (mousemove) / (mouseenter) / (mouseleave)</h2>
+    <div class="demo-box">
+      <div class="mouse-pad"
+           (mousemove)="onMouseMove($event)"
+           (mouseenter)="onMouseEnter()"
+           (mouseleave)="onMouseLeave()"
+           [class.hovered]="isHovered">
+        <span>{{ isHovered ? '🎯 Tracking...' : 'Move your mouse here' }}</span>
+        <span class="mouse-coords">X: {{ mousePosition.x }} | Y: {{ mousePosition.y }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C4: Input & Color ─────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C4</span> (input) &amp; (change) Events</h2>
+    <div class="two-col">
+      <div class="demo-box">
+        <p class="label-sm">(input) — fires on every keystroke</p>
+        <input type="text" placeholder="Type here..." (input)="onInputChange($event)" style="width:100%;">
+        <div class="state-row" style="margin-top:10px;">
+          <span class="state-key">typedInput</span>
+          <span class="state-val">{{ typedInput || '—' }}</span>
+        </div>
+      </div>
+      <div class="demo-box">
+        <p class="label-sm">(change) — color picker</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <input type="color" [value]="selectedColor" (change)="onColorChange($event)">
+          <div class="color-preview" [style.background]="selectedColor">{{ selectedColor }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C5: Select ────────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C5</span> (change) — Select Dropdown</h2>
+    <div class="demo-box">
+      <select [(ngModel)]="selectedFramework"
+              (change)="onSelectionChange(selectedFramework)"
+              class="styled-select">
+        <option value="" disabled>Select a framework</option>
+        @for (f of frameworks; track f.name) {
+          <option [value]="f.name">{{ f.value }}</option>
+        }
+      </select>
+      <div class="state-row" style="margin-top:10px;">
+        <span class="state-key">selectedFramework</span>
+        <span class="state-val">{{ selectedFramework }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C6: Form Submit ───────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C6</span> (submit) — Form Event</h2>
+    <div class="demo-box">
+      <p class="label-sm">event.preventDefault() stops page reload</p>
+      <form (submit)="onFormSubmit($event)" class="form-row">
+        <input type="text"
+               [value]="inputValue"
+               (input)="inputValue = $any($event).target.value"
+               placeholder="Enter something..."
+               style="flex:1;">
+        <button type="submit" class="btn-primary">Submit</button>
+      </form>
+      <div class="state-row" style="margin-top:10px;" *ngIf="formMessage">
+        <span class="state-key">formMessage</span>
+        <span class="state-val" style="color:#00e676;">{{ formMessage }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── C7: dblclick & contextmenu ────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">C7</span> (dblclick) &amp; (contextmenu)</h2>
+    <div class="two-col">
+      <div class="special-box" (dblclick)="onDoubleClick()">
+        <span class="special-icon">👆👆</span>
+        <span>Double-click me!</span>
+      </div>
+      <div class="special-box right-click" (contextmenu)="onRightClick($event)">
+        <span class="special-icon">🖱️</span>
+        <span>Right-click me!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Event Log ─────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>📋 Event Log <span style="font-size:12px; color:#3d4363; font-weight:400;">(last 5 events)</span></h2>
+    <div class="event-log">
+      @if (eventLog.length === 0) {
+        <div class="log-empty">No events yet. Interact with the demos above!</div>
+      }
+      @for (entry of eventLog; track entry) {
+        <div class="log-entry">{{ entry }}</div>
+      }
+    </div>
+  </div>
+
+</div>

@@ -1,7 +1,204 @@
-<div class="container">
-    <div class="card">
-      <h2>Two-Way Binding</h2>
-      <input [(ngModel)]="userName" placeholder="Enter your name">
-      <p>Hello, {{ userName }}!</p>
+<div class="page">
+  <h1>Two-Way Binding</h1>
+  <p class="subtitle">
+    Synchronize data between component and template simultaneously using
+    <span class="tag">[(ngModel)]</span> — the "Banana in a Box" syntax.
+    Requires <strong>FormsModule</strong> in imports.
+  </p>
+
+  <!-- ── How it works ─────────────────────────────────────────── -->
+  <div class="card">
+    <h2>📌 How it works</h2>
+    <p><span class="tag">[(ngModel)]</span> is syntactic sugar that combines both directions:</p>
+    <div class="code-block">
+      <span class="comment">// [(ngModel)] is shorthand for:</span><br>
+      [<span class="attr">ngModel</span>]="<span class="value">prop</span>"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">← Property Binding: component → view</span><br>
+      (<span class="attr">ngModelChange</span>)="<span class="value">prop=$event</span>"&nbsp;&nbsp;<span class="comment">← Event Binding:    view → component</span><br><br>
+      <span class="comment">// Combined:</span><br>
+      &lt;<span class="tag-name">input</span> [(<span class="attr">ngModel</span>)]="<span class="value">twoWayName</span>"&gt;
     </div>
   </div>
+
+  <!-- ── D1: Text & Email ──────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D1</span> Text &amp; Email Inputs</h2>
+    <div class="demo-box">
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="field-label">Full Name</label>
+          <input type="text" [(ngModel)]="twoWayName" placeholder="Enter name">
+          <div class="field-preview">→ {{ twoWayName || '—' }}</div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Simple Name</label>
+          <input type="text" [(ngModel)]="twoWName" placeholder="Enter text">
+          <div class="field-preview">→ {{ twoWName || '—' }}</div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Email</label>
+          <input type="text" [(ngModel)]="twoWayEmail" placeholder="Enter email" style="width:100%;">
+          <div class="field-preview">→ {{ twoWayEmail || '—' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── D2: Range & Number ────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D2</span> Range Sliders</h2>
+    <div class="demo-box">
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="field-label">Age: <span class="field-val">{{ twoWayAge }}</span></label>
+          <input type="range" min="18" max="60" [(ngModel)]="twoWayAge" style="width:100%;">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Range Value: <span class="field-val">{{ rangeValue }}</span></label>
+          <input type="range" min="0" max="100" [(ngModel)]="rangeValue" style="width:100%;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── D3: Radio & Checkbox ──────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D3</span> Radio Buttons &amp; Checkbox</h2>
+    <div class="two-col">
+      <div class="demo-box">
+        <p class="label-sm">Gender — radio buttons</p>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" [(ngModel)]="twoWayGender" value="male"> Male
+          </label>
+          <label class="radio-item">
+            <input type="radio" [(ngModel)]="twoWayGender" value="female"> Female
+          </label>
+          <label class="radio-item">
+            <input type="radio" [(ngModel)]="twoWayGender" value="other"> Other
+          </label>
+        </div>
+        <div class="state-row" style="margin-top:10px;">
+          <span class="state-key">twoWayGender</span>
+          <span class="state-val">{{ twoWayGender }}</span>
+        </div>
+      </div>
+      <div class="demo-box">
+        <p class="label-sm">Newsletter — checkbox</p>
+        <label class="check-item">
+          <input type="checkbox" [(ngModel)]="twoWaySubscribed">
+          <span>Subscribe to newsletter</span>
+        </label>
+        <div class="state-row" style="margin-top:12px;">
+          <span class="state-key">twoWaySubscribed</span>
+          <span class="state-val" [style.color]="twoWaySubscribed ? '#00e676' : '#ff4d6d'">
+            {{ twoWaySubscribed }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── D4: Select & Color ────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D4</span> Select Dropdown &amp; Color Picker</h2>
+    <div class="two-col">
+      <div class="demo-box">
+        <p class="label-sm">Programming Language</p>
+        <select [(ngModel)]="twoWayLanguage" class="styled-select">
+          <option value="" disabled>Select an option</option>
+          @for (p of programmingLanguages; track p) {
+            <option [value]="p">{{ p }}</option>
+          }
+        </select>
+        <div class="state-row" style="margin-top:10px;">
+          <span class="state-key">twoWayLanguage</span>
+          <span class="state-val">{{ twoWayLanguage }}</span>
+        </div>
+      </div>
+      <div class="demo-box">
+        <p class="label-sm">Favorite Color</p>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <input type="color" [(ngModel)]="twoWayColor">
+          <div class="color-swatch" [style.background]="twoWayColor">{{ twoWayColor }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── D5: Profile Summary ───────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D5</span> Live Profile Summary</h2>
+    <div class="demo-box">
+      <div class="profile-box">
+        <span class="profile-icon">👤</span>
+        <p class="profile-text">{{ profileSummary }}</p>
+      </div>
+      <button class="btn-danger" (click)="resetForm()" style="margin-top:14px;">↺ Reset All Fields</button>
+    </div>
+  </div>
+
+  <!-- ── D6: User Table ────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">D6</span> User Table with Modal</h2>
+    <div class="demo-box" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users; track u.id) {
+            <tr [class.row-active]="selectedId === u.id">
+              <td>{{ u.id }}</td>
+              <td>{{ u.name }}</td>
+              <td>{{ u.department }}</td>
+              <td>
+                <button class="btn-sm" (click)="onClick(u)">View Details</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Modal ─────────────────────────────────────────────────── -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title">Employee Details</span>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-field">
+          <label class="field-label">ID</label>
+          <input type="text" [(ngModel)]="selectedId" readonly>
+        </div>
+        <div class="modal-field">
+          <label class="field-label">Name</label>
+          <input type="text" [(ngModel)]="selectedName" readonly>
+        </div>
+        <div class="modal-field">
+          <label class="field-label">Department</label>
+          <input type="text" [(ngModel)]="selectedDepartment" readonly>
+        </div>
+        <div class="modal-field">
+          <label class="field-label">Position</label>
+          <input type="text" [(ngModel)]="selectedPosition" readonly>
+        </div>
+        <div class="modal-field">
+          <label class="field-label">Role</label>
+          <input type="text" [(ngModel)]="selectedRole" readonly>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+</div>

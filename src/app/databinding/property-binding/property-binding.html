@@ -1,8 +1,89 @@
-<div class="container">
-    <div class="card">
-      <h2>Property Binding</h2>
-      <p><img [src]="imageUrl" [alt]="imageAlt" width="220"></p>
-      <p><button [disabled]="isDisabled">I am Disabled</button></p>
-      <p><input [value]="inputValue"></p>
+<div class="page">
+  <h1>Property Binding</h1>
+  <p class="subtitle">
+    Set DOM element properties dynamically using <span class="tag">[property]="expression"</span> syntax.
+    One-way binding from the component to the view.
+  </p>
+
+  <!-- ── Explanation ──────────────────────────────────────────── -->
+  <div class="card">
+    <h2>📌 How it works</h2>
+    <p>Square brackets tell Angular: evaluate the right-hand side as a TypeScript expression
+    and assign its result to the DOM property named inside the brackets.</p>
+    <div class="code-block">
+      <span class="comment">// Sets the JS property, NOT the HTML attribute</span><br>
+      &lt;<span class="tag-name">img</span> [<span class="attr">src</span>]="<span class="value">imageSource</span>" [<span class="attr">alt</span>]="<span class="value">imageAlt</span>"&gt;<br>
+      &lt;<span class="tag-name">button</span> [<span class="attr">disabled</span>]="<span class="value">isButtonDisabled</span>"&gt;Click Me&lt;/<span class="tag-name">button</span>&gt;<br>
+      &lt;<span class="tag-name">input</span> [<span class="attr">placeholder</span>]="<span class="value">inputPlaceholder</span>"&gt;
+    </div>
+    <div class="diff-box">
+      <div class="diff-item diff-bad">
+        <span class="diff-label">❌ Without [ ]</span>
+        <code>disabled="isButtonDisabled"</code>
+        <span class="diff-note">Always disabled — treats value as a string</span>
+      </div>
+      <div class="diff-item diff-good">
+        <span class="diff-label">✅ With [ ]</span>
+        <code>[disabled]="isButtonDisabled"</code>
+        <span class="diff-note">Evaluates to true/false — dynamic</span>
+      </div>
     </div>
   </div>
+
+  <!-- ── [disabled] ───────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">B1</span> [disabled] — Button Property</h2>
+    <div class="demo-box">
+      <p class="label-sm">Click once to enable the button</p>
+      <button [disabled]="isButtonDisabled" (click)="onButtonClick()">
+        {{ isButtonDisabled ? '🔒 Disabled — Click to Enable' : '🔓 Now Enabled! Clicked ' + clickCount + ' time(s)' }}
+      </button>
+      <div class="state-row" style="margin-top:14px;">
+        <span class="state-key">isButtonDisabled</span>
+        <span class="state-val" [style.color]="isButtonDisabled ? '#ff4d6d' : '#00e676'">
+          {{ isButtonDisabled }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── [src] [alt] [width] ──────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">B2</span> [src] [alt] [width] — Image Properties</h2>
+    <div class="demo-box" style="text-align:center;">
+      <img [src]="imageSource" [alt]="imageAlt" [width]="imageWidth" style="display:block; margin:0 auto 14px;">
+      <div class="state-grid">
+        <div class="state-row"><span class="state-key">[src]</span><span class="state-val">{{ imageSource }}</span></div>
+        <div class="state-row"><span class="state-key">[alt]</span><span class="state-val">{{ imageAlt }}</span></div>
+        <div class="state-row"><span class="state-key">[width]</span><span class="state-val">{{ imageWidth }}px</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── [href] ────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">B3</span> [href] — Anchor Property</h2>
+    <div class="demo-box">
+      <div class="state-row" style="margin-bottom:14px;">
+        <span class="state-key">linkUrl</span>
+        <span class="state-val">{{ linkUrl }}</span>
+      </div>
+      <a [href]="linkUrl" target="_blank" class="link-btn">
+        🔗 Visit UB Site →
+      </a>
+    </div>
+  </div>
+
+  <!-- ── [placeholder] ────────────────────────────────────────── -->
+  <div class="card">
+    <h2><span class="section-badge">B4</span> [placeholder] — Input Property</h2>
+    <div class="demo-box">
+      <div class="state-row" style="margin-bottom:14px;">
+        <span class="state-key">inputPlaceholder</span>
+        <span class="state-val">{{ inputPlaceholder }}</span>
+      </div>
+      <input type="text" [placeholder]="inputPlaceholder" style="width:100%;">
+    </div>
+  </div>
+
+</div>

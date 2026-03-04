@@ -1,8 +1,9 @@
 export interface User {
-    id : number;
-    name : string | undefined;
-    position: string;
-    department: string;
-    role: string | undefined;
-
-}
+    id: number;
+    name?: string;
+    position?: string;
+    department?: string;
+    details?: {
+      role: (string | number)[];
+    };
+  }
