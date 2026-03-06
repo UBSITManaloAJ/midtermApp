@@ -1,0 +1,116 @@
+<div class="page">
+  <h1>Products</h1>
+  <p class="subtitle">Browse our catalog of <strong style="color:#00d4ff;">{{ products.length }}</strong> products.</p>
+
+  <!-- Table -->
+  <div class="card" style="padding:0; overflow:hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products; track product.id) {
+          <tr [class.row-active]="selectedProduct?.id === product.id">
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>
+              <span class="status-badge"
+                [class.status-available]="product.status === 'Available'"
+                [class.status-out]="product.status === 'Out of Stock'"
+                [class.status-limited]="product.status === 'Limited'">
+                {{ product.status }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-view" (click)="viewProductDetails(product)">
+                View
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  @if (showModal) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+          <span class="modal-title">Product Details</span>
+          <button class="modal-close" (click)="closeModal()">✕</button>
+        </div>
+
+        @if (selectedProduct) {
+          <div class="modal-body">
+            <div class="detail-row">
+              <span class="detail-label">ID</span>
+              <span class="detail-value">{{ selectedProduct.id }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Name</span>
+              <span class="detail-value">{{ selectedProduct.name }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Category</span>
+              <span class="detail-value">{{ selectedProduct.category }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Brand</span>
+              <span class="detail-value">{{ selectedProduct.brand }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Price</span>
+              <span class="detail-value" style="color:#00e676;">
+                ${{ selectedProduct.price }}
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Stock</span>
+              <span class="detail-value">{{ selectedProduct.stock }} units</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Status</span>
+              <span class="detail-value">
+                <span class="status-badge"
+                  [class.status-available]="selectedProduct.status === 'Available'"
+                  [class.status-out]="selectedProduct.status === 'Out of Stock'"
+                  [class.status-limited]="selectedProduct.status === 'Limited'">
+                  {{ selectedProduct.status }}
+                </span>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Rating</span>
+              <span class="detail-value" style="color:#f5a623;">
+                ★ {{ selectedProduct.rating }} / 5
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Discount</span>
+              <span class="detail-value">{{ selectedProduct.discount }}%</span>
+            </div>
+            <div class="detail-row description-row">
+              <span class="detail-label">Description</span>
+              <span class="detail-value">{{ selectedProduct.description }}</span>
+            </div>
+          </div>
+        }
+
+        <div class="modal-footer">
+          <button (click)="closeModal()">Close</button>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</div>

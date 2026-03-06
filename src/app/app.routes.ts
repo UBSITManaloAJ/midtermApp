@@ -7,6 +7,7 @@ import { TwoWay } from './databinding/two-way/two-way';
 import { AttributeBinding } from './databinding/attribute-binding/attribute-binding';
 import { ClassBinding } from './databinding/class-binding/class-binding';
 import { StyleBinding } from './databinding/style-binding/style-binding';
+import { Products } from './products/products';
 
 export const routes: Routes = [
   { path: 'home',             component: Home },
@@ -17,5 +18,6 @@ export const routes: Routes = [
   { path: 'attribute',        component: AttributeBinding },
   { path: 'class',            component: ClassBinding },
   { path: 'style',            component: StyleBinding },
-  { path: '',                 redirectTo: 'home', pathMatch: 'full' }
+  { path: '',                 redirectTo: 'home', pathMatch: 'full' },
+  { path: 'products', component: Products }
 ];
