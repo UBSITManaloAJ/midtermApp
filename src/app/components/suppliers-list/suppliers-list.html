@@ -1,0 +1,43 @@
+<div class="page">
+    <h1>Suppliers Management</h1>
+    <p class="subtitle">
+      Managing <strong style="color:#00d4ff;">{{ suppliers.length }}</strong> suppliers.
+    </p>
+  
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Supplier Name</th>
+            <th>Contact Person</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (supplier of suppliers; track supplier.id) {
+            <tr>
+              <td>{{ supplier.id }}</td>
+              <td>{{ supplier.supplierName }}</td>
+              <td>{{ supplier.contactPerson }}</td>
+              <td>{{ supplier.category }}</td>
+              <td>
+                <span class="status-badge"
+                  [class.status-active]="supplier.status === 'Active'"
+                  [class.status-inactive]="supplier.status === 'Inactive'">
+                  {{ supplier.status }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-view" (click)="viewSupplierDetails(supplier.id)">
+                  View
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>

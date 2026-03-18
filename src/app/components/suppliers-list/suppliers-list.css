@@ -1,0 +1,51 @@
+.status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+  }
+  
+  .status-active   { background: #00e67618; color: #00e676; border: 1px solid #00e67633; }
+  .status-inactive { background: #ff4d6d18; color: #ff4d6d; border: 1px solid #ff4d6d33; }
+  
+  .btn-view {
+    background: #1e2235;
+    border: 1px solid #2a2f4a;
+    color: #00d4ff;
+    padding: 5px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin: 0;
+  }
+  
+  .btn-view:hover {
+    background: #00d4ff15;
+    border-color: #00d4ff44;
+  }
+
+  thead th {
+    padding: 14px 20px;
+    font-size: 13px;
+  }
+  
+  tbody td {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  thead th:nth-child(1) { width: 60px; }
+  thead th:nth-child(2) { width: 22%; }
+  thead th:nth-child(3) { width: 20%; }
+  thead th:nth-child(4) { width: 18%; }
+  thead th:nth-child(5) { width: 15%; }
+  thead th:nth-child(6) { width: 12%; }

@@ -1,8 +1,69 @@
 <div class="page">
   <h1>Products</h1>
-  <p class="subtitle">Browse our catalog of <strong style="color:#00d4ff;">{{ products.length }}</strong> products.</p>
+  <p class="subtitle">Managing <strong style="color:#00d4ff;">{{ displayedProducts().length }}</strong> products.</p>
 
-  <!-- Table -->
+  <!-- Search bar -->
+  <div class="card">
+    <div class="search-row">
+      <input type="text" placeholder="🔍 Search by name or category..." (input)="onSearch($event)" style="flex:1; width:auto;">
+      <button (click)="toggleAddForm()">
+        {{ showAddForm ? '✕ Cancel' : '＋ Add Game' }}
+      </button>
+    </div>
+    @if (addSuccess) {
+      <div class="success-box" style="margin-top:10px;">✅ Game added successfully!</div>
+    }
+  </div>
+
+  <!-- Add Form -->
+  @if (showAddForm) {
+    <div class="card">
+      <h2>＋ Add New Game</h2>
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="field-label">Name</label>
+          <input type="text" [(ngModel)]="newProduct.name" placeholder="Game name">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Category</label>
+          <input type="text" [(ngModel)]="newProduct.category" placeholder="e.g. RPG, FPS">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Brand / Studio</label>
+          <input type="text" [(ngModel)]="newProduct.brand" placeholder="Studio name">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Price (₱)</label>
+          <input type="number" [(ngModel)]="newProduct.price">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Stock</label>
+          <input type="number" [(ngModel)]="newProduct.stock">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Status</label>
+          <input type="text" [(ngModel)]="newProduct.status" placeholder="Available / Limited / Out of Stock">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Rating</label>
+          <input type="number" [(ngModel)]="newProduct.rating" min="0" max="5" step="0.1">
+        </div>
+        <div class="form-field">
+          <label class="field-label">Discount (%)</label>
+          <input type="number" [(ngModel)]="newProduct.discount">
+        </div>
+      </div>
+      <div class="form-field" style="margin-top:14px;">
+        <label class="field-label">Description</label>
+        <input type="text" [(ngModel)]="newProduct.description" style="width:100%;">
+      </div>
+      <button class="btn-primary" style="margin-top:16px; width:100%;" (click)="saveNewProduct()">
+        💾 Save Game
+      </button>
+    </div>
+  }
+
+  <!-- Products Table -->
   <div class="card" style="padding:0; overflow:hidden;">
     <table>
       <thead>
@@ -15,8 +76,8 @@
         </tr>
       </thead>
       <tbody>
-        @for (product of products; track product.id) {
-          <tr [class.row-active]="selectedProduct?.id === product.id">
+        @for (product of displayedProducts(); track product.id) {
+          <tr>
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.category }}</td>
@@ -29,9 +90,10 @@
               </span>
             </td>
             <td>
-              <button class="btn-view" (click)="viewProductDetails(product)">
-                View
-              </button>
+              <div style="display:flex; gap:6px;">
+                <a [routerLink]="['/products', product.id, 'details']" class="btn-view">View</a>
+                <button class="btn-delete" (click)="deleteProduct(product.id)">Delete</button>
+              </div>
             </td>
           </tr>
         }
@@ -39,78 +101,87 @@
     </table>
   </div>
 
-  <!-- Modal -->
-  @if (showModal) {
-    <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-box" (click)="$event.stopPropagation()">
+  <!-- Router outlet for product details -->
+  <router-outlet></router-outlet>
 
-        <div class="modal-header">
-          <span class="modal-title">Product Details</span>
-          <button class="modal-close" (click)="closeModal()">✕</button>
-        </div>
-
-        @if (selectedProduct) {
-          <div class="modal-body">
-            <div class="detail-row">
-              <span class="detail-label">ID</span>
-              <span class="detail-value">{{ selectedProduct.id }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Name</span>
-              <span class="detail-value">{{ selectedProduct.name }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Category</span>
-              <span class="detail-value">{{ selectedProduct.category }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Brand</span>
-              <span class="detail-value">{{ selectedProduct.brand }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Price</span>
-              <span class="detail-value" style="color:#00e676;">
-                ${{ selectedProduct.price }}
-              </span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Stock</span>
-              <span class="detail-value">{{ selectedProduct.stock }} units</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Status</span>
-              <span class="detail-value">
-                <span class="status-badge"
-                  [class.status-available]="selectedProduct.status === 'Available'"
-                  [class.status-out]="selectedProduct.status === 'Out of Stock'"
-                  [class.status-limited]="selectedProduct.status === 'Limited'">
-                  {{ selectedProduct.status }}
-                </span>
-              </span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Rating</span>
-              <span class="detail-value" style="color:#f5a623;">
-                ★ {{ selectedProduct.rating }} / 5
-              </span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Discount</span>
-              <span class="detail-value">{{ selectedProduct.discount }}%</span>
-            </div>
-            <div class="detail-row description-row">
-              <span class="detail-label">Description</span>
-              <span class="detail-value">{{ selectedProduct.description }}</span>
-            </div>
+  <!-- Search by ID -->
+  <div class="card">
+    <h2>🔍 Get Game by ID</h2>
+    <div class="demo-box">
+      <div class="search-row">
+        <input type="number" [(ngModel)]="searchId" placeholder="Enter game ID...">
+        <button (click)="searchProduct()">Search</button>
+      </div>
+      @if (foundProduct) {
+        <div class="found-card">
+          <div class="found-grid">
+            <div class="found-row"><span class="found-key">ID</span><span class="found-val">{{ foundProduct.id }}</span></div>
+            <div class="found-row"><span class="found-key">Name</span><span class="found-val">{{ foundProduct.name }}</span></div>
+            <div class="found-row"><span class="found-key">Category</span><span class="found-val">{{ foundProduct.category }}</span></div>
+            <div class="found-row"><span class="found-key">Price</span><span class="found-val" style="color:#00e676;">₱{{ foundProduct.price }}</span></div>
+            <div class="found-row"><span class="found-key">Stock</span><span class="found-val">{{ foundProduct.stock }}</span></div>
+            <div class="found-row"><span class="found-key">Status</span><span class="found-val">{{ foundProduct.status }}</span></div>
           </div>
-        }
-
-        <div class="modal-footer">
-          <button (click)="closeModal()">Close</button>
         </div>
+      }
+    </div>
+  </div>
 
+  <!-- Update Product -->
+  <div class="card">
+    <h2>✏️ Update Game</h2>
+    <div class="demo-box">
+      <p style="font-size:13px; color:#3d4363; margin-bottom:14px;">Search a game by ID above first, then edit and save below.</p>
+      @if (editProduct) {
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="field-label">Name</label>
+            <input type="text" [(ngModel)]="editProduct.name">
+          </div>
+          <div class="form-field">
+            <label class="field-label">Category</label>
+            <input type="text" [(ngModel)]="editProduct.category">
+          </div>
+          <div class="form-field">
+            <label class="field-label">Price (₱)</label>
+            <input type="number" [(ngModel)]="editProduct.price">
+          </div>
+          <div class="form-field">
+            <label class="field-label">Stock</label>
+            <input type="number" [(ngModel)]="editProduct.stock">
+          </div>
+          <div class="form-field">
+            <label class="field-label">Status</label>
+            <input type="text" [(ngModel)]="editProduct.status">
+          </div>
+          <div class="form-field">
+            <label class="field-label">Discount (%)</label>
+            <input type="number" [(ngModel)]="editProduct.discount">
+          </div>
+        </div>
+        <button class="btn-primary" style="margin-top:14px; width:100%;" (click)="saveUpdate()">
+          💾 Save Changes
+        </button>
+        @if (updateSuccess) {
+          <div class="success-box" style="margin-top:10px;">✅ Game updated successfully!</div>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Session Auth -->
+  <div class="card">
+    <h2>🔐 Session Auth</h2>
+    <div class="demo-box">
+      <div style="display:flex; gap:10px; margin-bottom:14px;">
+        <button (click)="login()">Login</button>
+        <button class="btn-danger" (click)="logout()">Logout</button>
+      </div>
+      <div class="found-row">
+        <span class="found-key">isLoggedIn</span>
+        <span class="found-val" [style.color]="isLoggedIn ? '#00e676' : '#ff4d6d'">{{ isLoggedIn }}</span>
       </div>
     </div>
-  }
+  </div>
 
 </div>

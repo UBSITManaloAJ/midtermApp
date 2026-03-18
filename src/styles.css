@@ -137,6 +137,11 @@ button.danger {
 input[type="text"],
 input[type="number"],
 input:not([type="color"]):not([type="range"]) {
-  background: #0f1117;
-  border: 1px solid #2d3148;
-  color: #e2e8f0;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 6px 0;
+  width: 250px;
+  color: #000000;
+}   

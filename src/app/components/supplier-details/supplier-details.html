@@ -1,0 +1,99 @@
+<div class="page">
+    <div class="page-header">
+      <button class="btn-back" (click)="goBack()">← Back</button>
+      <h1>Supplier Details</h1>
+    </div>
+  
+    @if (supplier) {
+      <div class="card">
+        <h2>✏️ Edit Supplier</h2>
+        <div class="form-grid">
+  
+          <div class="form-field">
+            <label class="field-label">ID (readonly)</label>
+            <input type="text" [(ngModel)]="supplier.id" name="id" readonly class="input-readonly">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Supplier Name</label>
+            <input type="text" [(ngModel)]="supplier.supplierName" name="supplierName">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Contact Person</label>
+            <input type="text" [(ngModel)]="supplier.contactPerson" name="contactPerson">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Email</label>
+            <input type="text" [(ngModel)]="supplier.email" name="email">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Phone</label>
+            <input type="text" [(ngModel)]="supplier.phone" name="phone">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Location</label>
+            <input type="text" [(ngModel)]="supplier.location" name="location">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Category</label>
+            <input type="text" [(ngModel)]="supplier.category" name="category">
+          </div>
+  
+          <div class="form-field">
+            <label class="field-label">Status</label>
+            <input type="text" [(ngModel)]="supplier.status" name="status">
+          </div>
+  
+          <div class="form-field full-width">
+            <label class="field-label">Products Supplied</label>
+            <input type="text"
+              [value]="supplier.productsSupplied.join(', ')"
+              (change)="supplier.productsSupplied = $any($event).target.value.split(', ')"
+              name="productsSupplied">
+            <span class="field-hint">Separate with ", " (comma space)</span>
+          </div>
+  
+        </div>
+  
+        <div class="form-actions">
+          <button class="btn-primary" (click)="saveChanges()">💾 Save Changes</button>
+          <button (click)="goBack()">← Back</button>
+        </div>
+  
+        @if (saveSuccess) {
+          <div class="success-box">✅ Supplier updated successfully!</div>
+        }
+      </div>
+  
+      <!-- Preview -->
+      <div class="card">
+        <h2>👁 Live Preview</h2>
+        <div class="demo-box">
+          <div class="detail-grid">
+            <div class="detail-row"><span class="detail-key">ID</span><span class="detail-val">{{ supplier.id }}</span></div>
+            <div class="detail-row"><span class="detail-key">Name</span><span class="detail-val">{{ supplier.supplierName }}</span></div>
+            <div class="detail-row"><span class="detail-key">Contact</span><span class="detail-val">{{ supplier.contactPerson }}</span></div>
+            <div class="detail-row"><span class="detail-key">Email</span><span class="detail-val">{{ supplier.email }}</span></div>
+            <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">{{ supplier.phone }}</span></div>
+            <div class="detail-row"><span class="detail-key">Location</span><span class="detail-val">{{ supplier.location }}</span></div>
+            <div class="detail-row"><span class="detail-key">Category</span><span class="detail-val">{{ supplier.category }}</span></div>
+            <div class="detail-row"><span class="detail-key">Status</span><span class="detail-val">{{ supplier.status }}</span></div>
+            <div class="detail-row"><span class="detail-key">Products</span><span class="detail-val">{{ supplier.productsSupplied.join(', ') }}</span></div>
+          </div>
+        </div>
+      </div>
+    }
+  
+    @if (!supplier) {
+      <div class="card" style="text-align:center;">
+        <p style="color:#ff4d6d;">⚠️ Supplier not found.</p>
+        <button (click)="goBack()" style="margin-top:14px;">← Back to Suppliers</button>
+      </div>
+    }
+  
+  </div>
